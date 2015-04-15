@@ -49,8 +49,15 @@ First you'll need to clone this repository from GitHub. If the following command
 You're finally ready to begin creating your demonstration environment. Change into the `seteam-vagrant-stack` directory and bring up the puppet master:
 
 	$ cd PE-Monolithic-HA
-	$ vagrant up /master/
-	
+	$ vagrant up
+
+  By default, this will start all VMs listed in PE-Monolithic-HA/config/vms.yaml
+
+  To start individual VMs, such as the Active / Passive Master pair:
+
+  $ vagrant up active.inf.puppetlabs.demo
+  $ vagrant up passive.inf.puppetlabs.demo
+
 It's going to take a little while to download the Centos image and configure it, during which time you'll see a lot of activity in the terminal. When it finishes, you should see something like this:
 
 	Notice: /Stage[main]/Role::Puppetmaster/Exec[instantiate_environment]/returns: executed successfully
