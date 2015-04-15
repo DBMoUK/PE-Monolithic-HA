@@ -1,0 +1,17 @@
+---
+vms:
+  - name: "active.inf.puppetlabs.demo"
+    box:  "puppetlabs/centos-6.5-64-nocm"
+    roles: [ "masteractive" ]
+
+  - name: "passive.inf.puppetlabs.demo"
+    box:  "puppetlabs/centos-6.5-64-nocm"
+    roles: [ "masterpassive" ]
+
+  - name: "centos65a.pdx.puppetlabs.demo"
+    box: "puppetlabs/centos-6.5-64-nocm"
+    roles: [ "posix_agent" ]
+
+  - name: "centos65b.syd.puppetlabs.demo"
+    box: "puppetlabs/centos-6.5-64-nocm"
+    roles: [ "posix_agent" ]

@@ -1,0 +1,7 @@
+/.pe_build
+/.vagrant
+*.swp
+/.files
+*.tar.gz
+/pkg
+/environments

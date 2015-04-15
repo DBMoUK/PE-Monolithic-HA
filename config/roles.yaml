@@ -1,0 +1,62 @@
+---
+roles:
+
+  masteractive:
+    private_networks:
+      - ip: '0.0.0.0'
+        auto_network: true
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096]
+        - [modifyvm, !ruby/sym id, '--ioapic', 'on']
+        - [modifyvm, !ruby/sym id, '--cpus', '2']
+    synced_folders:
+      - host_path:  '.files'
+        guest_path: '/var/seteam-files'
+    provisioners:
+      - type: shell
+        inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"
+      - type: hosts
+      - type: pe_bootstrap
+        role: !ruby/sym master
+        autosign:
+          - centos65a.pdx.puppetlabs.demo
+          - centos65b.syd.puppetlabs.demo
+      - type: shell
+        inline: |-
+          /bin/bash /vagrant/scripts/deploy.sh
+
+  masterpassive:
+    private_networks:
+      - ip: '0.0.0.0'
+        auto_network: true
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 4096]
+        - [modifyvm, !ruby/sym id, '--ioapic', 'on']
+        - [modifyvm, !ruby/sym id, '--cpus', '2']
+    synced_folders:
+      - host_path:  '.files'
+        guest_path: '/var/seteam-files'
+    provisioners:
+      - type: shell
+        inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"
+      - type: hosts
+      - type: pe_bootstrap
+        role: !ruby/sym master
+      - type: shell
+        inline: |-
+          /bin/bash /vagrant/scripts/deploy.sh
+
+  posix_agent:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provisioners:
+      - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
+      - {type: hosts}
+      - type: shell
+        inline: |-
+          curl -sk https://active.inf.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash 
+  
