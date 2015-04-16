@@ -26,7 +26,10 @@ roles:
       - type: shell
         inline: |-
           /bin/bash /vagrant/scripts/deploy.sh
-
+      - type: shell
+        inline: "echo 'PATH=/opt/puppet/bin:$PATH' >> /root/.bashrc"
+      - type: shell
+        inline: "rm /root/.bash_profile" 
   masterpassive:
     private_networks:
       - ip: '0.0.0.0'
@@ -49,14 +52,23 @@ roles:
       - type: shell
         inline: |-
           /bin/bash /vagrant/scripts/deploy.sh
+      - type: shell
+        inline: "echo 'export PATH=/opt/puppet/bin:$PATH' >> /root/.bashrc"
+      - type: shell
+        inline: "rm /root/.bash_profile"
 
   posix_agent:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
+      - {type: shell, inline: "echo 'export PATH=/opt/puppet/bin:$PATH' >> /root/.bashrc"}
       - {type: hosts}
       - type: shell
         inline: |-
           curl -sk https://active.inf.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash 
-  
+      - type: shell
+        inline: "echo 'export PATH=/opt/puppet/bin:$PATH' >> /root/.bash_rc"
+      - type: shell
+        inline: "rm /root/.bash_profile"
+
